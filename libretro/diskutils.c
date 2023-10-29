@@ -3,7 +3,11 @@
 
 #include <unistd.h>
 #include <stdio.h>
+#if defined(SF2000)
+#include "../../../dirent.h"
+#else
 #include <dirent.h>
+#endif
 #include <string.h>
 #include <sys/stat.h>
 #include <stdlib.h>

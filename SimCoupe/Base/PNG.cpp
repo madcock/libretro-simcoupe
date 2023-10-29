@@ -29,11 +29,14 @@
 #include "SimCoupe.h"
 #include "PNG.h"
 
+#if !defined(SF2000)
 #include "zlib.h"
+#endif
 
 #include "Frame.h"
 #include "Options.h"
 
+#if !defined(SF2000)
 #ifdef USE_ZLIB
 
 // 32-bit values in PNG data are always network byte order (big endian), so define a helper macro if a conversion is needed
@@ -201,7 +204,7 @@ static bool SaveFile (FILE *f_, CScreen *pScreen_)
 }
 
 #endif // USE_ZLIB
-
+#endif
 
 // Process and save the supplied SAM image data to a file in PNG format
 bool PNG::Save (CScreen* pScreen_)

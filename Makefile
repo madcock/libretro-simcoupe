@@ -24,7 +24,21 @@ else ifeq ($(platform), osx)
    TARGET := libretro.dylib
    fpic := -fPIC
    SHARED := -dynamiclib
-
+# SF2000
+else ifeq ($(platform), sf2000)
+    TARGET := $(TARGET_NAME)_libretro_$(platform).a
+    MIPS=/opt/mips32-mti-elf/2019.09-03-2/bin/mips-mti-elf-
+    CC = $(MIPS)gcc
+    CXX = $(MIPS)g++
+    AR = $(MIPS)ar
+    CFLAGS =-EL -march=mips32 -mtune=mips32 -msoft-float -ffast-math -fomit-frame-pointer
+    CFLAGS+=-G0 -mabicalls -fno-pic
+	#-mno-abicalls
+#	-ffreestanding
+    CFLAGS+=-DSF2000
+    CXXFLAGS=$(CFLAGS)
+    STATIC_LINKING = 1
+	
 # Classic Platforms ####################
 # Platform affix = classic_<ISA>_<µARCH>
 # Help at https://modmyclassic.com/comp
@@ -141,7 +155,11 @@ OBJECTS :=  $(SIMCP_SRC_FILES)\
 	libretro/libretro-simcp.o libretro/simcp-mapper.o libretro/vkbd.o \
 	libretro/graph.o libretro/diskutils.o libretro/fontmsx.o  
 
+ifeq ($(platform), sf2000)
+DEFINES += -DLSB_FIRST -DNDEBUG -D__LITTLE_ENDIAN__
+else
 DEFINES += -DUSE_ZLIB -DLSB_FIRST -DNDEBUG -D__LITTLE_ENDIAN__
+endif
 CFLAGS += $(DEFINES) -DRETRO=1 -O3 -funroll-loops  -fsigned-char  \
 	-ffast-math -fomit-frame-pointer -finline-functions -s -fPIC
 

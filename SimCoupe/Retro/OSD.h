@@ -41,8 +41,12 @@
 
 #ifndef _WINDOWS
 
-#include <sys/ioctl.h>
+//#include <sys/ioctl.h>
+#if defined(SF2000)
+#include "../../../../dirent.h"
+#else
 #include <dirent.h>
+#endif
 #include <unistd.h>
 
 #define PATH_SEPARATOR      '/'
