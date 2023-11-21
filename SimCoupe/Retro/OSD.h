@@ -43,6 +43,7 @@
 
 //#include <sys/ioctl.h>
 #if defined(SF2000)
+#define ioctl(f,c,x)	-1
 #include "../../../../dirent.h"
 #else
 #include <dirent.h>
